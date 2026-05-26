@@ -55,21 +55,28 @@ tags: ["tag1", "tag2", "tag3"]
   );
 
   const slug = generateSlug(idea.title);
-  const filename = `${today}-${slug}.mdx`;
 
-  const destDir = config.autoPublishBlogs
-    ? path.join(process.cwd(), config.blogDirectory)
-    : path.join(process.cwd(), 'content-drafts');
+  let filePath;
+  if (config.autoPublishBlogs) {
+    // App Router structure: app/blog/[slug]/page.mdx  — picked up as /blog/[slug]
+    const postDir = path.join(process.cwd(), config.blogDirectory, slug);
+    fs.mkdirSync(postDir, { recursive: true });
+    filePath = path.join(postDir, 'page.mdx');
+  } else {
+    // Draft: flat file in content-drafts/ for human review before publishing
+    const filename = `${today}-${slug}.mdx`;
+    const destDir = path.join(process.cwd(), 'content-drafts');
+    fs.mkdirSync(destDir, { recursive: true });
+    filePath = path.join(destDir, filename);
+  }
 
-  fs.mkdirSync(destDir, { recursive: true });
-  const filePath = path.join(destDir, filename);
   fs.writeFileSync(filePath, result);
 
-  const status = config.autoPublishBlogs ? 'PUBLISHED' : 'DRAFT';
-  console.log(`  [${status}] ${filename} via ${provider}`);
+  const status = config.autoPublishBlogs ? 'PUBLISHED → app/blog/' + slug + '/page.mdx' : 'DRAFT → content-drafts/';
+  console.log(`  [${status}] via ${provider}`);
 
   return {
-    slug, filename, filePath,
+    slug, filePath,
     published: config.autoPublishBlogs,
     provider
   };

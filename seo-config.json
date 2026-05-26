@@ -1,0 +1,27 @@
+{
+  "siteUrl": "https://yourwebsite.com",
+  "deployBranch": "main",
+  "skipPages": ["/admin", "/api", "/_next", "/404", "/500"],
+  "maxCrawlPages": 80,
+  "router": "app",
+  "appDirectory": "app",
+  "blogDirectory": "app/blog",
+  "autoPublishBlogs": false,
+  "claudeHaikuModel": "claude-haiku-4-5-20251001",
+  "claudeSonnetModel": "claude-sonnet-4-6",
+  "groqModel": "llama-3.1-70b-versatile",
+  "knownCompetitors": [
+    "competitor1.com",
+    "competitor2.com",
+    "competitor3.com"
+  ],
+  "targetKeywords": [
+    "your primary keyword",
+    "your secondary keyword",
+    "your third keyword"
+  ],
+  "gscSiteUrl": "sc-domain:yourwebsite.com",
+  "country": "in",
+  "maxCompetitorsToAnalyze": 5,
+  "maxBlogPostsPerWeek": 2
+}
